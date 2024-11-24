@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.austinevick.blockrollclone.components.CustomButton
+import com.austinevick.blockrollclone.data.model.GeneralResponseModel
 import com.austinevick.blockrollclone.data.model.auth.ValidateEmailModel
 import com.austinevick.blockrollclone.navigation.Destinations
 import com.austinevick.blockrollclone.view.auth.viewmodel.LoginData
@@ -84,17 +85,14 @@ fun EmailVerificationScreen(
             navController.navigate(Destinations.CreateUsername.route)
         }
         if (uiState.data != null){
-            val data = uiState.data as JsonObject
-            val username = data.get("username").toString()
-            val hasPasscode = data.get("has_passcode").asBoolean
-            if (username.isEmpty()){
+            val data = uiState.data as GeneralResponseModel
+
+            if (data.data?.username?.isEmpty()==true){
                 navController.navigate(Destinations.CreateUsername.route)
             }
-            if(!hasPasscode){
+            if(data.data?.hasPasscode==false){
                 navController.navigate(Destinations.CreatePasscode.route)
-            }
-        }
-        Log.d("OTP", otpValues.toString())
+            } }
     }
 
     Scaffold(

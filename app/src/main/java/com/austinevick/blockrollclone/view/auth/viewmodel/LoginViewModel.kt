@@ -10,7 +10,7 @@ import com.austinevick.blockrollclone.common.isValidEmail
 import com.austinevick.blockrollclone.common.validateEmail
 import com.austinevick.blockrollclone.common.validateField
 import com.austinevick.blockrollclone.data.model.auth.LoginModel
-import com.austinevick.blockrollclone.data.repository.AuthRepository
+import com.austinevick.blockrollclone.data.source.remote.repository.AuthRepository
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

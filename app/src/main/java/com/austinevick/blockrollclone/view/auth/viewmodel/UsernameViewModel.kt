@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.austinevick.blockrollclone.common.UiState
 import com.austinevick.blockrollclone.data.model.auth.UsernameModel
-import com.austinevick.blockrollclone.data.repository.AuthRepository
+import com.austinevick.blockrollclone.data.source.remote.repository.AuthRepository
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

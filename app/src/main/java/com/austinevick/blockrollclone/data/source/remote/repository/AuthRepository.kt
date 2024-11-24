@@ -1,4 +1,4 @@
-package com.austinevick.blockrollclone.data.repository
+package com.austinevick.blockrollclone.data.source.remote.repository
 
 import com.austinevick.blockrollclone.data.model.GeneralResponseModel
 import com.austinevick.blockrollclone.data.model.auth.LoginModel

@@ -156,6 +156,8 @@ fun LoginForm(
     onEmailValueChange: (LoginData) -> Unit,
     onPasswordValueChange: (LoginData) -> Unit,
 ) {
+
+
     Column(horizontalAlignment = Alignment.End) {
         CustomTextField(value = loginUiState.loginData.email,
             onValueChange = { onEmailValueChange(loginUiState.loginData.copy(email = it)) },
@@ -207,5 +209,6 @@ fun LoginForm(
         }
 
     }
+
 
 }

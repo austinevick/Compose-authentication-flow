@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.austinevick.blockrollclone"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.austinevick.blockrollclone"
@@ -46,18 +46,19 @@ android {
 }
 
 dependencies {
-
+     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    implementation(libs.logging.interceptor)
 
     // Biometric
     implementation(libs.androidx.biometric)
-
-
+    // Datastore
+    implementation(libs.androidx.datastore)
 
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.navigation.compose)
