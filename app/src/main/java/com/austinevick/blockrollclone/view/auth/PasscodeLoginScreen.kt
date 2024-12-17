@@ -18,8 +18,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,17 +31,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.austinevick.blockrollclone.R
 import com.austinevick.blockrollclone.components.CustomButton
+import com.austinevick.blockrollclone.components.LoadingDialog
 import com.austinevick.blockrollclone.components.NonLazyGrid
 import com.austinevick.blockrollclone.navigation.Destinations
+import com.austinevick.blockrollclone.view.auth.viewmodel.PasscodeViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun PasscodeLoginScreen(navController: NavHostController) {
-
+fun PasscodeLoginScreen(
+    navController: NavHostController,
+    viewModel: PasscodeViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val passcode = remember { mutableStateOf("") }
     val digits = 4
+
+    val state = viewModel.passcodeState.collectAsState()
+
+    LaunchedEffect(key1 = state.value) {
+        if (state.value.message != null) {
+            Toast.makeText(context, state.value.message, Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 
 
     Scaffold(containerColor = Color.White) { innerPadding ->
@@ -81,7 +101,6 @@ fun PasscodeLoginScreen(navController: NavHostController) {
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            val c = LocalContext.current
             NonLazyGrid(columns = 3, itemCount = 12) { i ->
                 Box(
                     contentAlignment = Alignment.Center,
@@ -113,9 +132,9 @@ fun PasscodeLoginScreen(navController: NavHostController) {
                                     }
                                 }
                                 if (passcode.value.length == digits) {
-                                    Toast
-                                        .makeText(c, passcode.value, Toast.LENGTH_LONG)
-                                        .show()
+                                    scope.launch {
+                                        viewModel.loginWithPasscode(passcode.value)
+                                    }
                                 }
                             })
                 ) {
@@ -161,5 +180,7 @@ fun PasscodeLoginScreen(navController: NavHostController) {
             }
             Spacer(modifier = Modifier.height(20.dp))
         }
+
+       if (state.value.isLoading) LoadingDialog()
     }
 }

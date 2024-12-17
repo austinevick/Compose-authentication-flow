@@ -6,10 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.austinevick.blockrollclone.common.UiState
 import com.austinevick.blockrollclone.data.model.GeneralResponseModel
 import com.austinevick.blockrollclone.data.model.auth.ValidateEmailModel
-import com.austinevick.blockrollclone.data.source.DataStorePreferences
-import com.austinevick.blockrollclone.data.source.DataStorePreferences.Companion.hasPasscode
-import com.austinevick.blockrollclone.data.source.DataStorePreferences.Companion.username
-import com.austinevick.blockrollclone.data.source.remote.repository.AuthRepository
+import com.austinevick.blockrollclone.data.source.local.DataStore
+import com.austinevick.blockrollclone.data.source.local.DataStore.Companion.hasPasscode
+import com.austinevick.blockrollclone.data.source.local.DataStore.Companion.token
+import com.austinevick.blockrollclone.data.source.local.DataStore.Companion.username
+import com.austinevick.blockrollclone.data.source.remote.AuthRepository
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VerificationViewModel @Inject constructor(
-   private val dataStore: DataStorePreferences,
+    private val dataStore: DataStore,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -31,13 +32,14 @@ class VerificationViewModel @Inject constructor(
 
     var passcodeValue = MutableStateFlow(false)
         private set
-init {
-    getUserPasscodeValue()
-}
+
+    init {
+        getUserPasscodeValue()
+    }
 
     private fun getUserPasscodeValue() {
         viewModelScope.launch {
-       passcodeValue.value = dataStore.getPreference(hasPasscode, false)
+            passcodeValue.value = dataStore.getPreference(hasPasscode, false)
         }
     }
 
@@ -47,10 +49,11 @@ init {
             val response = authRepository.validateEmail(model)
             if (response.code() == 200) {
                 val successBody = Gson().toJsonTree(response.body()).asJsonObject
-                val data = Gson().fromJson(successBody,GeneralResponseModel::class.java)
+                val data = Gson().fromJson(successBody, GeneralResponseModel::class.java)
 
                 dataStore.putPreference(hasPasscode, data.data?.hasPasscode!!)
                 dataStore.putPreference(username, data.data.username!!)
+                dataStore.putPreference(token, data.data.token!!)
                 Log.d("success", data.toString())
 
                 _uiState.value = _uiState.value.copy(

@@ -1,9 +1,12 @@
-package com.austinevick.blockrollclone.data.source.remote.repository
+package com.austinevick.blockrollclone.data.source.remote
 
 import com.austinevick.blockrollclone.data.model.GeneralResponseModel
+import com.austinevick.blockrollclone.data.model.auth.GenerateTrustTokenModel
 import com.austinevick.blockrollclone.data.model.auth.LoginModel
+import com.austinevick.blockrollclone.data.model.auth.PasscodeLoginModel
 import com.austinevick.blockrollclone.data.model.auth.PasscodeModel
 import com.austinevick.blockrollclone.data.model.auth.RegisterModel
+import com.austinevick.blockrollclone.data.model.auth.TrustTokenResponseModel
 import com.austinevick.blockrollclone.data.model.auth.UsernameModel
 import com.austinevick.blockrollclone.data.model.auth.ValidateEmailModel
 import retrofit2.Response
@@ -44,5 +47,19 @@ interface AuthRepository {
         @Body passcodeModel: PasscodeModel
     ): Response<GeneralResponseModel>
 
+    @POST("/auth/generate-trust-token")
+    suspend fun generateTrustToken(
+        @Body generateTrustTokenModel: GenerateTrustTokenModel
+    ): Response<TrustTokenResponseModel>
+
+    @POST("/auth/passcode-login")
+    suspend fun passcodeLogin(
+        @Body passcodeLoginModel: PasscodeLoginModel
+    ): Response<GeneralResponseModel>
+
+    @POST("/auth/biometric-login")
+    suspend fun biometricLogin(
+        @Body passcodeLoginModel: PasscodeLoginModel
+    ): Response<GeneralResponseModel>
 
 }

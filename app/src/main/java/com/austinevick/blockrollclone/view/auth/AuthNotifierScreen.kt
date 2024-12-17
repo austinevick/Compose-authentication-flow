@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.austinevick.blockrollclone.view.auth.viewmodel.VerificationViewModel
+import com.austinevick.blockrollclone.view.home.HomeScreen
 
 @Composable
 fun AuthNotifierScreen(
@@ -20,6 +21,7 @@ fun AuthNotifierScreen(
 
     if (passcodeValue.value) {
         PasscodeLoginScreen(navController)
+//        HomeScreen()
     } else {
         LoginScreen(navController)
     }

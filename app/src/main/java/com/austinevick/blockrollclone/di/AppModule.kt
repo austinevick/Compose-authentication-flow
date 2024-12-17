@@ -2,9 +2,9 @@ package com.austinevick.blockrollclone.di
 
 import android.content.Context
 import com.austinevick.blockrollclone.common.Constants.Companion.baseUrl
-import com.austinevick.blockrollclone.data.source.DataStorePreferences
-import com.austinevick.blockrollclone.data.source.DataStorePreferences.Companion.token
-import com.austinevick.blockrollclone.data.source.remote.repository.AuthRepository
+import com.austinevick.blockrollclone.data.source.local.DataStore
+import com.austinevick.blockrollclone.data.source.local.DataStore.Companion.token
+import com.austinevick.blockrollclone.data.source.remote.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,7 +46,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideHeaderInterceptor(dataStore: DataStorePreferences): Interceptor =
+    fun provideHeaderInterceptor(dataStore: DataStore): Interceptor =
         Interceptor{ chain ->
             val token = runBlocking {
                 dataStore.getPreference(token, "")
@@ -62,8 +62,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStorePreferences =
-        DataStorePreferences(context)
+    fun provideDataStore(@ApplicationContext context: Context): DataStore =
+        DataStore(context)
 
     @Provides
     @Singleton

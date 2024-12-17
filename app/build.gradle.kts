@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.austinevick.blockrollclone"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.austinevick.blockrollclone"

@@ -14,5 +14,6 @@ data class GeneralResponseData(
     @SerializedName("emailverified") val emailVerified: Boolean,
     @SerializedName("has_passcode") val hasPasscode: Boolean,
     @SerializedName("username") val username: String? = null,
+    @SerializedName("token") val token: String? = null
 )
 

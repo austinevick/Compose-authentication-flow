@@ -1,4 +1,4 @@
-package com.austinevick.blockrollclone.data.source
+package com.austinevick.blockrollclone.data.source.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
@@ -8,11 +8,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-
 private val Context.dataStore by preferencesDataStore(name = "settings")
 
 
-class DataStorePreferences(context: Context) {
+class DataStore(context: Context) {
     private val dataStore = context.dataStore
 
     suspend fun <T> getPreference(key: Preferences.Key<T>, defaultValue: T): T =
@@ -40,8 +39,11 @@ class DataStorePreferences(context: Context) {
     companion object {
         val userId = stringPreferencesKey("userId")
         val token = stringPreferencesKey("token")
+        val trustToken = stringPreferencesKey("trustToken")
         val username = stringPreferencesKey("username")
         val hasPasscode = booleanPreferencesKey("hasPasscode")
+        val email = stringPreferencesKey("email")
+        val password = stringPreferencesKey("password")
     }
 
 }

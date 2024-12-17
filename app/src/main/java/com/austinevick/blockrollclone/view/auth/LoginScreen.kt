@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -97,6 +99,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             LoginForm(
+                viewModel = viewModel,
                 navController = navController,
                 loginUiState = loginUiState,
                 onPasswordToggle = viewModel::togglePassword,
@@ -145,6 +148,7 @@ fun LoginScreen(
 
 @Composable
 fun LoginForm(
+    viewModel: LoginViewModel,
     navController: NavHostController,
     loginUiState: LoginUiState,
     onPasswordToggle: () -> Unit,
@@ -156,7 +160,6 @@ fun LoginForm(
     onEmailValueChange: (LoginData) -> Unit,
     onPasswordValueChange: (LoginData) -> Unit,
 ) {
-
 
     Column(horizontalAlignment = Alignment.End) {
         CustomTextField(value = loginUiState.loginData.email,
@@ -202,10 +205,17 @@ fun LoginForm(
                 }
             }
         )
-        TextButton(onClick = {
-            navController.navigate(Destinations.EmailVerification.route)
-        }) {
-            Text(text = "Forgot Password?")
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = viewModel.isChecked,
+                onCheckedChange = { viewModel.toggleCheck(it) })
+            Text(text = "Remember Me")
+
+            Spacer(modifier = Modifier.weight(1f))
+            TextButton(onClick = {
+                navController.navigate(Destinations.EmailVerification.route)
+            }) {
+                Text(text = "Forgot Password?")
+            }
         }
 
     }

@@ -1,7 +1,6 @@
 package com.austinevick.blockrollclone.view.auth
 
 import android.util.Log
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -23,19 +21,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -51,9 +46,7 @@ import com.austinevick.blockrollclone.data.model.GeneralResponseModel
 import com.austinevick.blockrollclone.data.model.auth.ValidateEmailModel
 import com.austinevick.blockrollclone.navigation.Destinations
 import com.austinevick.blockrollclone.view.auth.viewmodel.LoginData
-import com.austinevick.blockrollclone.view.auth.viewmodel.SignupDetails
 import com.austinevick.blockrollclone.view.auth.viewmodel.VerificationViewModel
-import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 
 @Composable
@@ -81,18 +74,21 @@ fun EmailVerificationScreen(
         if (uiState.message != null) {
             snackbarHostState.showSnackbar(uiState.message!!)
         }
-        if (uiState.statusCode == 200) {
-            navController.navigate(Destinations.CreateUsername.route)
-        }
+
         if (uiState.data != null){
             val data = uiState.data as GeneralResponseModel
 
             if (data.data?.username?.isEmpty()==true){
                 navController.navigate(Destinations.CreateUsername.route)
-            }
-            if(data.data?.hasPasscode==false){
+            }else if(data.data?.hasPasscode==false){
                 navController.navigate(Destinations.CreatePasscode.route)
-            } }
+            } else{
+                navController.navigate(Destinations.Home.route){
+                    popUpTo(Destinations.Login.route){
+                        inclusive=true
+                    }
+            }
+        }}
     }
 
     Scaffold(
