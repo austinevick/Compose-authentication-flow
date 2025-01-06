@@ -7,6 +7,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.fragment.compose.AndroidFragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.austinevick.blockrollclone.view.auth.viewmodel.LoginViewModel
 import com.austinevick.blockrollclone.view.auth.viewmodel.PasscodeViewModel
@@ -15,14 +16,11 @@ import com.austinevick.blockrollclone.view.auth.viewmodel.PasscodeViewModel
 fun HomeScreen(viewModel: PasscodeViewModel = hiltViewModel()) {
 
 
-    LaunchedEffect(Unit) {
-        viewModel.generateTrustToken()
-    }
 
     Scaffold { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
 
-
+            AndroidFragment(HomeFragment::class.java)
         }
     }
 

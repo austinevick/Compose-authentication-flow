@@ -1,6 +1,7 @@
 package com.austinevick.blockrollclone.view.auth
 
 import android.widget.Toast
+import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.austinevick.blockrollclone.R
@@ -59,6 +61,37 @@ fun PasscodeLoginScreen(
                 .show()
         }
     }
+
+
+//    fun showBiometricPrompt() {
+//        val info = BiometricPrompt.PromptInfo.Builder()
+//            .setTitle("Biometric Authentication")
+//            .setSubtitle("Log in using your biometric credential")
+//            .setNegativeButtonText("Cancel")
+//            .build()
+//
+//
+//        val biometricPrompt = BiometricPrompt(context, ContextCompat.getMainExecutor(context),
+//            object : BiometricPrompt.AuthenticationCallback() {
+//                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+//                    super.onAuthenticationError(errorCode, errString)
+//                }
+//
+//                override fun onAuthenticationFailed() {
+//                    super.onAuthenticationFailed()
+//                }
+//
+//                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+//                    super.onAuthenticationSucceeded(result)
+//                }
+//
+//            }
+//        )
+//        biometricPrompt.authenticate(info)
+//    }
+
+
+
 
 
     Scaffold(containerColor = Color.White) { innerPadding ->
@@ -176,11 +209,11 @@ fun PasscodeLoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             CustomButton(text = "Forgot Passcode") {
-                navController.navigate(Destinations.Login.route)
+                navController.navigate(Destinations.Home.route)
             }
             Spacer(modifier = Modifier.height(20.dp))
         }
 
-       if (state.value.isLoading) LoadingDialog()
+        if (state.value.isLoading) LoadingDialog()
     }
 }

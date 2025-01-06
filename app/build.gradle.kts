@@ -41,11 +41,13 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
 }
 
 dependencies {
+
      // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -60,8 +62,10 @@ dependencies {
     // Datastore
     implementation(libs.androidx.datastore)
 
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
